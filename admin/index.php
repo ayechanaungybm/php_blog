@@ -55,8 +55,6 @@ if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
 
                   }
 
-dafafaf
-
                ?>
               <div class="card-body">
 

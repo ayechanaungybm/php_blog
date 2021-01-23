@@ -5,6 +5,9 @@ if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
   header("Location:login.php");
 }
 
+$stmt=$pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
+$stmt->execute();
+$result=$stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,119 +38,44 @@ if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
     <!-- Main content -->
     <section class="content">
       <div class="row">
-       <div class="col-md-4">
 
-         <div class="card card-widget">
-           <div class="card-header">
-            <div style="text-align:center !important;float:none;"class="card-title">
-              <h2 >Blog Title</h2>
+        <?php
+        if($result){
+        foreach ($result as  $value) {?>
+          <div class="col-md-4">
+              <div class="card card-widget">
+              <div class="card-header">
+               <div style="text-align:left !important;float:none;"class="card-title">
+                 <h4><?php
+                 if(strlen($value['title'])>=35){
+                      echo substr($value['title'],0,35);?>
+                      <a href="blogdetail.php?id=<?php echo $value['id'];?>">....</a><?php
+                 }else{
+                      echo $value['title'];
+                 }
+
+                 ?>
+               </h5>
+               </div>
+
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <a href="blogdetail.php?id=<?php echo $value['id'];?>"><img class="img-fluid pad" src="../admin/images/<?php echo $value['image']?>"style="display:block; margin-left:auto; margin-right:auto; width:100%; height:300px; !important;"></a>
+
+              </div>
+              <!-- /.card-body -->
+
             </div>
-
-           </div>
-           <!-- /.card-header -->
-           <div class="card-body">
-             <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo">
-           </div>
-           <!-- /.card-body -->
-
-         </div>
-         <!-- /.card -->
-       </div>
-       <div class="col-md-4">
-
-         <div class="card card-widget">
-           <div class="card-header">
-            <div style="text-align:center !important;float:none;"class="card-title">
-              <h2 >Blog Title</h2>
-            </div>
-
-           </div>
-           <!-- /.card-header -->
-           <div class="card-body">
-             <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo">
-           </div>
-           <!-- /.card-body -->
-
-         </div>
-         <!-- /.card -->
-       </div>
-       <div class="col-md-4">
-
-         <div class="card card-widget">
-           <div class="card-header">
-            <div style="text-align:center !important;float:none;"class="card-title">
-              <h2 >Blog Title</h2>
-            </div>
-
-           </div>
-           <!-- /.card-header -->
-           <div class="card-body">
-             <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo">
-           </div>
-           <!-- /.card-body -->
-
-         </div>
-         <!-- /.card -->
-       </div>
-
-     </div>
-     <div class="row">
-      <div class="col-md-4">
-
-        <div class="card card-widget">
-          <div class="card-header">
-           <div style="text-align:center !important;float:none;"class="card-title">
-             <h2 >Blog Title</h2>
-           </div>
-
+            <!-- /.card -->
           </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo">
-          </div>
-          <!-- /.card-body -->
+        <?php }
+        }?>
 
-        </div>
-        <!-- /.card -->
-      </div>
-      <div class="col-md-4">
-
-        <div class="card card-widget">
-          <div class="card-header">
-           <div style="text-align:center !important;float:none;"class="card-title">
-             <h2 >Blog Title</h2>
-           </div>
-
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo">
-          </div>
-          <!-- /.card-body -->
-
-        </div>
-        <!-- /.card -->
-      </div>
-      <div class="col-md-4">
-
-        <div class="card card-widget">
-          <div class="card-header">
-           <div style="text-align:center !important;float:none;"class="card-title">
-             <h2 >Blog Title</h2>
-           </div>
-
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <img class="img-fluid pad" src="../dist/img/photo2.png" alt="Photo">
-          </div>
-          <!-- /.card-body -->
-
-        </div>
-        <!-- /.card -->
       </div>
 
-    </div>
+
     </section>
 
 
@@ -156,7 +84,8 @@ if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
 
   <footer class="main-footer" style="margin-left:0">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.5
+      <a href="logout.php" type="button" class="btn btn-default">Logout</a>
+      
     </div>
     <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
     reserved.
