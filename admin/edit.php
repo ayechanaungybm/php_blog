@@ -4,7 +4,9 @@ require "../config/config.php";
 if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
   header("Location:login.php");
 }
-
+if($_SESSION['role']!=1){ // if not admin role, back to login
+    header('Location:login.php');
+  }
 
 if($_POST){
 

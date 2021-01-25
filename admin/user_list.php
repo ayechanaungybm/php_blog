@@ -17,7 +17,6 @@ if (!empty($_POST['search'])) {
     setcookie('search', null, -1, '/');
   }
 }
-
 ?>
 <?php
     include('header.php');
@@ -42,49 +41,24 @@ if (!empty($_POST['search'])) {
                 $numOfrecs=1;
                 $offset=($pageno-1)*$numOfrecs;
 
-                // if(empty($_POST['search'])){
-                //   $stmt=$pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
-                //   $stmt->execute();
-                //   $rawResult=$stmt->fetchAll();
-                //
-                //   $total_page=ceil(count($rawResult)/$numOfrecs);
-                //
-                //   $stmt=$pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
-                //   $stmt->execute();
-                //   $result=$stmt->fetchAll();
-                //
-                // }else{
-                //
-                //     $searchKey=$_POST['search'];
-                //     $stmt=$pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
-                //     $stmt->execute();
-                //     $rawResult=$stmt->fetchAll();
-                //
-                //     $total_page=ceil(count($rawResult)/$numOfrecs);
-                //
-                //     $stmt=$pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
-                //     $stmt->execute();
-                //     $result=$stmt->fetchAll();
-                //
-                //   }
                 if (empty($_POST['search']) && empty($_COOKIE['search'])) {
-                $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
+                $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
                 $stmt->execute();
                 $rawResult = $stmt->fetchAll();
                 $total_page = ceil(count($rawResult) / $numOfrecs);
 
-                $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
+                $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC LIMIT $offset,$numOfrecs");
                 $stmt->execute();
                 $result = $stmt->fetchAll();
                  }else{
                     $searchKey = (!empty($_POST['search']))? $_POST['search'] : $_COOKIE['search'];
-                    $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
+                    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
                     $stmt->execute();
-                    $result = $stmt->fetchAll();
+                    $rawResult = $stmt->fetchAll();
 
-                    $total_page = ceil(count($result) / $numOfrecs);
+                    $total_page = ceil(count($rawResult) / $numOfrecs);
 
-                    $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+                    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
                     $stmt->execute();
                     $result = $stmt->fetchAll();
                  }
@@ -93,15 +67,16 @@ if (!empty($_POST['search'])) {
               <div class="card-body">
 
                 <div>
-                  <a href="add.php" type="button" class="btn btn-success">Created New</a>
+                  <a href="user_add.php" type="button" class="btn btn-success">Created User</a>
                 </div>
                 <br>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Title</th>
-                      <th>Content</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
                       <th style="width: 40px">Actions</th>
                     </tr>
                   </thead>
@@ -115,15 +90,16 @@ if (!empty($_POST['search'])) {
                     ?>
                         <tr>
                           <td><?php echo $i;?></td>
-                          <td><?php echo $value['title']?></td>
-                          <td><?php echo substr($value['content'],0,50)?></td>
+                          <td><?php echo $value['name']?></td>
+                          <td><?php echo $value['email']?></td>
+                            <td><?php echo ($value['role']==1)?'Admin':'User';?></td>
                           <td>
                             <div class="btn-group">
                               <div class="container">
-                                    <a href="edit.php?id=<?php echo $value['id']?>" type="button" class="btn btn-warning">Edit</a>
+                                    <a href="user_edit.php?id=<?php echo $value['id']?>" type="button" class="btn btn-warning">Edit</a>
                               </div>
                               <div class="container">
-                                  <a href="delete.php?id=<?php echo $value['id']?>"
+                                  <a href="user_delete.php?id=<?php echo $value['id']?>"
                                     onclick="return confirm('Are you sure want to delete this item')" type="button" class="btn btn-danger">Delete</a>
                               </div>
                             </div>

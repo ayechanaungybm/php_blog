@@ -93,6 +93,7 @@ if($_POST){
             <br>
              <p><h5><?php echo $result[0]['content']?></h5></p>
              <h6>Comments</h6><hr>
+              <a href="index.php" type="button" class="btn btn-default">Back</a>
            </div>
 
            <!-- /.card-body -->
@@ -115,12 +116,6 @@ if($_POST){
                 <!-- /.comment-text -->
               </div>
               </div>
-
-
-
-
-
-
 
            <!-- /.card-footer -->
            <div class="card-footer">

@@ -11,14 +11,17 @@ if($_POST){
   $result=$stmt->fetch(PDO::FETCH_ASSOC);
 
   if($result){
-    if($result['email']==$email && $result['password']==$pw){
+    if(password_verify($pw,$result['password'])){
       $_SESSION['user_id']=$result['id'];
       $_SESSION['user_name']=$result['name'];
       $_SESSION['loggedin']=time();
+      $_SESSION['role']=0;
       header("Location:index.php");
     }
+  }else{
+      echo "<script>alert('Incorrect email or password');</script>";
   }
-  echo "<script>alert('Incorrect email or password');</script>";
+
 
 }
 

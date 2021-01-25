@@ -5,7 +5,20 @@ if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
   header("Location:login.php");
 }
 
+if(!empty($_GET['pageno'])){
+  $pageno=$_GET['pageno'];
+}else{
+  $pageno=1;
+}
+$numOfrecs=6;
+$offset=($pageno-1)*$numOfrecs;
 $stmt=$pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
+$stmt->execute();
+$rawResult=$stmt->fetchAll();
+
+$total_page=ceil(count($rawResult)/$numOfrecs);
+
+$stmt=$pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
 $stmt->execute();
 $result=$stmt->fetchAll();
 ?>
@@ -74,7 +87,21 @@ $result=$stmt->fetchAll();
         }?>
 
       </div>
-
+      <div class="row" style="float:right;margin-right:0px">
+        <nav aria-label="Page navigation example" style="float:right">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
+            <li class="page-item <?php if($pageno<=1){ echo 'disabled';}?>">
+              <a class="page-link" href="<?php if($pageno<=1){echo '#';}else{echo '?pageno='.($pageno-1);}?>">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#"><?php echo $pageno; ?></a></li>
+            <li class="page-item <?php if($pageno>=$total_page){echo 'disabled';}?>">
+              <a class="page-link" href="<?php if($pageno>=$total_page){echo '#';}else{echo '?pageno='.($pageno+1);}?>">Next</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?pageno=<?php echo $total_page;?>">Last</a></li>
+          </ul>
+        </nav>
+      </div><br><br>
 
     </section>
 
@@ -82,10 +109,11 @@ $result=$stmt->fetchAll();
   </div>
   <!-- /.content-wrapper -->
 
+
   <footer class="main-footer" style="margin-left:0">
     <div class="float-right d-none d-sm-block">
       <a href="logout.php" type="button" class="btn btn-default">Logout</a>
-      
+
     </div>
     <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
     reserved.
