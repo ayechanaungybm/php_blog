@@ -35,15 +35,19 @@ if($cmtResult){
 
 if($_POST){
 
-
-    $comment=$_POST['comment'];
-    $stmt=$pdo->prepare("INSERT INTO comments(content,author_id,post_id) VALUES (:content,:author_id,:post_id)");
-    $result=$stmt->execute(
-      array(':content'=>$comment,':author_id'=>$_SESSION['user_id'],"post_id"=>$blog_id)
-    );
-    if($result){
-      header("Location:blogdetail.php?id=".$blog_id);
+    if(empty($_POST['comment'])){
+      $cmtError="Comment are not to allowed.";
+    }else{
+      $comment=$_POST['comment'];
+      $stmt=$pdo->prepare("INSERT INTO comments(content,author_id,post_id) VALUES (:content,:author_id,:post_id)");
+      $result=$stmt->execute(
+        array(':content'=>$comment,':author_id'=>$_SESSION['user_id'],"post_id"=>$blog_id)
+      );
+      if($result){
+        header("Location:blogdetail.php?id=".$blog_id);
+      }
     }
+
 
 }
 ?>
@@ -122,6 +126,7 @@ if($_POST){
              <form action="" method="post">
                <!-- .img-push is used to add margin to elements next to floating images -->
                <div class="img-push">
+                 <p style="color:red"><?php echo empty($cmtError)  ? '':'*'.$cmtError;?></p>
                  <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
                </div>
              </form>

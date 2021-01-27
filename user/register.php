@@ -3,6 +3,20 @@
 require '../config/config.php';
 
 if($_POST){
+  if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) || strlen($_POST['password'])<4) {
+    if(empty($_POST['name'])){
+      $nameError="Name required";
+    }
+    if(empty($_POST['email'])){
+      $emailError="Email required";
+    }
+    if(empty($_POST['password'])){
+      $pwError="Password required";
+    }
+    else if(strlen($_POST['password'])<4){
+      $pwError="Password must be 4 characters at least.";
+    }
+  }else{
   $name=$_POST['name'];
   $email=$_POST['email'];
   $password=password_hash($_POST['password'],PASSWORD_DEFAULT);
@@ -25,6 +39,7 @@ if($_POST){
     }
   }
 
+}
 }
 
  ?>
@@ -59,24 +74,30 @@ if($_POST){
       <p class="login-box-msg">Sign in to start your session</p>
 
       <form action="" method="post">
+        <p style="color:red"><?php echo empty($nameError)  ? '':'*'.$nameError;?></p>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="name" placeholder="Name" required>
+
+          <input type="text" class="form-control" name="name" placeholder="Name" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user-circle"></span>
             </div>
           </div>
         </div>
+        <p style="color:red"><?php echo empty($emailError)  ? '':'*'.$emailError;?></p>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email" required>
+
+          <input type="email" class="form-control" name="email" placeholder="Email" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+        <p style="color:red"><?php echo empty($pwError)  ? '':'*'.$pwError;?></p>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" placeholder="Password" required>
+
+          <input type="password" class="form-control" name="password" placeholder="Password" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
