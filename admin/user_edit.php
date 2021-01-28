@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "../config/config.php";
+require "../config/common.php";
 if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
   header("Location:login.php");
 }
@@ -47,7 +48,7 @@ if($_POST){
 
       }else{
         $stmt=$pdo->prepare("UPDATE users SET name='$name',email='$email',role='$role' WHERE id='$id'");
-      
+
       }
       $result=$stmt->execute();
       if($result){
@@ -72,6 +73,7 @@ if($_POST){
             <div class="card">
               <div class="card-body">
                 <form class="" action="" method="post">
+                  <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'];?>">
                     <input type="hidden" name="id" value="<?php echo $result[0]['id']?>">
                     <div class="form-group">
                         <label for="">Name</label><p style="color:red"><?php echo empty($nameError)  ? '':'*'.$nameError;?></p>

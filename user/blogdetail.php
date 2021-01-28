@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 session_start();
 
 require "../config/config.php";
+require "../config/common.php";
 if(empty($_SESSION['user_id']) && empty($_SESSION['loggedin'])){
   header("Location:login.php");
 }
@@ -124,6 +125,7 @@ if($_POST){
            <!-- /.card-footer -->
            <div class="card-footer">
              <form action="" method="post">
+                 <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'];?>">
                <!-- .img-push is used to add margin to elements next to floating images -->
                <div class="img-push">
                  <p style="color:red"><?php echo empty($cmtError)  ? '':'*'.$cmtError;?></p>
