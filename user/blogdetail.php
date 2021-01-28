@@ -87,16 +87,16 @@ if($_POST){
            <div class="card-header">
 
               <div style="text-align:center !important;float:none;"class="card-title">
-                <h4><?php echo $result[0]['title']?></h4>
+                <h4><?php echo escape($result[0]['title'])?></h4>
 
              </div>
              <!-- /.card-tools -->
            </div>
            <!-- /.card-header -->
            <div class="card-body">
-            <img class="img-fluid pad" src="../admin/images/<?php echo $result[0]['image']?>"style="display:block; margin-left:auto; margin-right:auto; width:90%; height:70%; !important;">
+            <img class="img-fluid pad" src="../admin/images/<?php echo escape($result[0]['image'])?>"style="display:block; margin-left:auto; margin-right:auto; width:90%; height:70%; !important;">
             <br>
-             <p><h5><?php echo $result[0]['content']?></h5></p>
+             <p><h5><?php echo escape($result[0]['content'])?></h5></p>
              <h6>Comments</h6><hr>
               <a href="index.php" type="button" class="btn btn-default">Back</a>
            </div>
@@ -109,10 +109,10 @@ if($_POST){
                 <?php foreach ($cmtResult as $key => $value){?>
                   <div class="comment-text" style="margin-left:0px !important">
                     <span class="username">
-                       <?php echo $auResult[$key][0]['name'];?>
-                      <span class="text-muted float-right"><?php echo $cmtResult[0]['created_at'];?></span>
+                       <?php echo escape($auResult[$key][0]['name']);?>
+                      <span class="text-muted float-right"><?php echo escape($cmtResult[0]['created_at']);?></span>
                     </span><!-- /.username -->
-                       <?php echo $cmtResult[0]['content'];?>
+                       <?php echo escape($cmtResult[0]['content']);?>
                   </div>
               <?php  } ?>
 

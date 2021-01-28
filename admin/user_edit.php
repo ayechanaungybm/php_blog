@@ -77,11 +77,11 @@ if($_POST){
                     <input type="hidden" name="id" value="<?php echo $result[0]['id']?>">
                     <div class="form-group">
                         <label for="">Name</label><p style="color:red"><?php echo empty($nameError)  ? '':'*'.$nameError;?></p>
-                        <input type="text" class="form-control" name="name" value="<?php echo $result[0]['name'];?>" >
+                        <input type="text" class="form-control" name="name" value="<?php echo escape($result[0]['name'])?>" >
                     </div>
                     <div class="form-group">
                         <label for="">Email</label><p style="color:red"><?php echo empty($emailError)  ? '':'*'.$emailError;?></p>
-                        <textarea name="email" class="form-control" rows="8" cols="80" ><?php echo $result[0]['email'];?></textarea>
+                        <textarea name="email" class="form-control" rows="8" cols="80" ><?php echo escape($result[0]['email']);?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="">Password</label><p style="color:red"><?php echo empty($pwError)  ? '':'*'.$pwError;?></p>
